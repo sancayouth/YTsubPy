@@ -2,6 +2,7 @@ from app.Downloader import Downloader
 from app.SubMaker import SubMaker
 import argparse
 
+
 def main():
     parser = argparse.ArgumentParser(prog='YTSubPy',
         description='Small program to download subtitles from youtube')
