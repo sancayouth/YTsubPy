@@ -1,5 +1,5 @@
-from app.Downloader import Downloader
-from app.SubMaker import SubMaker
+from app.Downloader import downloader
+from app.SubMaker import submaker
 import argparse
 
 
@@ -9,9 +9,9 @@ def main():
     parser.add_argument('url', help='the url of video')
     r = parser.parse_args()
     url = r.url
-    dwnld = Downloader.Downloader()
+    dwnld = downloader.Downloader()
     xml = dwnld.getxml(url)
-    sub = SubMaker.SubMaker()
+    sub = submaker.SubMaker()
     sub.fromstring(xml)
     sub.tofile()
     print 'Subtitle file was generated successfully'
