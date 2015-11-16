@@ -24,15 +24,13 @@ class SubMaker:
         string = string.replace('</text', '</t')
         root = objectify.fromstring(string)
         self.file_content = []
-        count = 1
-        for a in root.t:
-            self.file_content.append(str(count) + '\n')
+        for count,a in enumerate(root.t):
+            self.file_content.append(str(count+1) + '\n')
             line_time = self.generate_time(float(a.attrib.get("start")),
                                             float(a.attrib.get("dur")))
             self.file_content.append(line_time)
             self.file_content.append(unicode(a).encode("utf-8")  + '\n')
             self.file_content.append('\n')
-            count += 1
         return self.file_content
 
     def tofile(self, name=None):

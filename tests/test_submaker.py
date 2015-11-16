@@ -1,16 +1,16 @@
 import unittest
-from app.SubMaker import SubMaker
+from app.SubMaker import submaker
 
 
 class Tests(unittest.TestCase):
 
     def test_crated_empty_time(self):
-        sub = SubMaker.SubMaker()
+        sub = submaker.SubMaker()
         self.assertEqual('00:00:00,000 --> 00:00:00,000\n',
                             sub.generate_time(0, 0))
 
     def test_crated_time(self):
-        sub = SubMaker.SubMaker()
+        sub = submaker.SubMaker()
         self.assertEqual('00:00:08,580 --> 00:00:12,469\n',
                         sub.generate_time(8.58, 3.889))
 
@@ -19,7 +19,7 @@ class Tests(unittest.TestCase):
                  <transcript>
                  <text start="8.58" dur="3.889">Hello</text>
                  </transcript>'''
-        sub = SubMaker.SubMaker()
+        sub = submaker.SubMaker()
         ret = sub.fromstring(xml)
         sub_list = ['1\n', '00:00:08,580 --> 00:00:12,469\n', 'Hello\n', '\n']
         self.assertEqual(4, len(ret))
