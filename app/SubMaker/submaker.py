@@ -30,7 +30,7 @@ class SubMaker:
             line_time = self.generate_time(float(a.attrib.get("start")),
                                             float(a.attrib.get("dur")))
             self.file_content.append(line_time)
-            self.file_content.append(a + '\n')
+            self.file_content.append(unicode(a).encode("utf-8")  + '\n')
             self.file_content.append('\n')
             count += 1
         return self.file_content
