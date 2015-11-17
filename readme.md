@@ -2,10 +2,13 @@ YTSubPy
 =================
 Small program to download subtitles from youtube (WIP)
 
+Setup
+------------
+$ pip install -r requirements.txt
+
 Usage
 ------------
-$ python main.py https:\\\www.youtube.com\watch?v=____________
-
+$ python main.py youtube_video_url
 
 License
 ------------
