@@ -26,7 +26,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(sub_list, ret)
 
     def test_srt_file_is_created(self):
-        ret = self.sub.fromstring(self.xml)
+        self.sub.fromstring(self.xml)
         self.sub.tofile()
         self.assertTrue(os.path.isfile('sub.srt'))
 
