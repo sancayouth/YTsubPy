@@ -1,20 +1,20 @@
+import argparse
+from urllib2 import HTTPError
 from app.Downloader import downloader
 from app.SubMaker import submaker
-from urllib2 import HTTPError
-import argparse
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='YTSubPy',
-        description='Small program to download subtitles from youtube')
+    parser = argparse.ArgumentParser(prog='YTSubPy',\
+            description='Small program to download subtitles from youtube')
     parser.add_argument('url', help='the url of video')
     parser.add_argument('-l', help='language', default='en')
     parser.add_argument('-d', help='discover the available languages',
                         action='store_true')
-    r = parser.parse_args()
-    url = r.url
-    lang = r.l
-    discover = r.d
+    arg = parser.parse_args()
+    url = arg.url
+    lang = arg.l
+    discover = arg.d
     try:
         dwnld = downloader.Downloader(url, lang)
         if not discover:
@@ -27,16 +27,16 @@ def main():
             else:
                 raise NameError('Subtitle wasn\'t generated ')
         else:
-            langs = dwnld.get_config_xml(discover)
+            langs = dwnld.get_config_xml()
             for lang in langs:
                 print lang.get('str')
-    except HTTPError as e:
-        print e
+    except HTTPError as exception:
+        print exception
         print 'Subtitle not Found'
-    except IOError as e:
-        print 'Subtitle wasn\'t generated : ' + e
-    except Exception as e:
-        print e
+    except IOError as exception:
+        print 'Subtitle wasn\'t generated : ' + exception
+    except Exception as exception:
+        print exception
 
 if __name__ == '__main__':
     main()

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from lxml import objectify
 
 
-class SubMaker:
+class SubMaker(object):
 
     def __init__(self):
         self.file_content = []
@@ -16,7 +16,7 @@ class SubMaker:
                     str(b.microsecond).zfill(3)[0:3]
         end_time = str(c.hour).zfill(2) + ':' + str(c.minute).zfill(2) + \
                     ':' + str(c.second).zfill(2) + ',' + \
-                str(c.microsecond).zfill(3)[0:3]
+                    str(c.microsecond).zfill(3)[0:3]
         return init_time + ' --> ' + end_time + '\n'
 
     def fromstring(self, string):
@@ -24,12 +24,12 @@ class SubMaker:
         string = string.replace('</text', '</t')
         root = objectify.fromstring(string)
         self.file_content = []
-        for count, a in enumerate(root.t):
+        for count, row in enumerate(root.t):
             self.file_content.append(str(count + 1) + '\n')
-            line_time = self.generate_time(float(a.attrib.get("start")),
-                                            float(a.attrib.get("dur")))
+            line_time = self.generate_time(float(row.attrib.get("start")),\
+                float(row.attrib.get("dur")))
             self.file_content.append(line_time)
-            self.file_content.append(unicode(a).encode("utf-8") + '\n')
+            self.file_content.append(unicode(row).encode("utf-8") + '\n')
             self.file_content.append('\n')
         return self.file_content
 

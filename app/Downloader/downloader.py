@@ -1,13 +1,13 @@
-from  urllib2 import urlopen, HTTPError
+from urllib2 import urlopen
 from urlparse import urlparse, parse_qs
 from lxml import etree
 
 
-class Downloader:
+class Downloader(object):
 
     def __init__(self, url, lang='en'):
         self.url = url
-        self.v = ''
+        self.video = ''
         self.lang = lang
         self.parse()
 
@@ -16,8 +16,8 @@ class Downloader:
         query = parse_qs(parsed_url.query)
         error = NameError('The url is not valid')
         if parsed_url.netloc == 'www.youtube.com' and query.get('v'):
-            self.v = query.get('v')[0]
-            if not self.v:
+            self.video = query.get('v')[0]
+            if not self.video:
                 raise error
         else:
             raise error
@@ -28,27 +28,27 @@ class Downloader:
                 '{video}&type=track&lang={lang}&fmt=1'
         conf = self.get_config_xml()
         lang_match = next(
-            (l for l in conf if l.get('lang_code') == self.lang), None)        
+            (l for l in conf if l.get('lang_code') == self.lang), None)
         if lang_match:
             if lang_match.get('CC'):
                 url2 = url2 + '&name=CC'
-            url2 = url2.format(video=self.v, lang=self.lang)
+            url2 = url2.format(video=self.video, lang=self.lang)
             response = urlopen(url2)
             xml = response.read()
         else:
             raise NameError('Language not available')
         return xml
 
-    def get_config_xml(self, discover=False):
+    def get_config_xml(self):
         av_langs = []
         url = 'https://www.youtube.com/api/timedtext?caps=asr&v={video}' +\
             '&key=yttt1&hl=en_US&type=list&tlangs=1&fmts=0&vssids=1&asrs=1'
-        url = url.format(video=self.v)
+        url = url.format(video=self.video)
         response = urlopen(url)
         pxml = etree.fromstring(response.read())
         tracks = pxml.xpath('//track')
         for track in tracks:
-            av_langs.append({
-            'str':track.get('lang_code') + ':' + track.get('lang_translated'),
-            'lang_code':track.get('lang_code'), 'CC':track.get('name','')})
+            av_langs.append({\
+            'str': track.get('lang_code') + ':' + track.get('lang_translated'),\
+            'lang_code': track.get('lang_code'), 'CC': track.get('name', '')})
         return av_langs
