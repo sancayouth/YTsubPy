@@ -24,37 +24,31 @@ class Downloader:
 
     def get_xml(self):
         xml = ''
-        try:
-            url2 = 'https://www.youtube.com/api/timedtext?hl=en_US&v=' + \
-                    '{video}&type=track&lang={lang}&fmt=1'
-            conf = self.get_config_xml()
-            if len(conf):
-                if conf['CC']:
-                    url2 = url2 + '&name=CC'
-                url2 = url2.format(video=self.v, lang=self.lang)
-                response = urlopen(url2)
-                xml = response.read()
-        except HTTPError as e:
-            print e
+        url2 = 'https://www.youtube.com/api/timedtext?hl=en_US&v=' + \
+                '{video}&type=track&lang={lang}&fmt=1'
+        conf = self.get_config_xml()
+        lang_match = next(
+            (l for l in conf if l.get('lang_code') == self.lang), None)        
+        if lang_match:
+            if lang_match.get('CC'):
+                url2 = url2 + '&name=CC'
+            url2 = url2.format(video=self.v, lang=self.lang)
+            response = urlopen(url2)
+            xml = response.read()
+        else:
+            raise NameError('Language not available')
         return xml
 
     def get_config_xml(self, discover=False):
-        code = {}
-        try:
-            url = 'https://www.youtube.com/api/timedtext?caps=asr&v={video}' +\
-                '&key=yttt1&hl=en_US&type=list&tlangs=1&fmts=0&vssids=1&asrs=1'
-            url = url.format(video=self.v)
-            response = urlopen(url)
-            pxml = etree.fromstring(response.read())
-            if discover:
-                tracks = pxml.xpath('//track')
-                for track in tracks:
-                    print  '%r:%r' % \
-                    (track.get('lang_translated'), track.get('lang_code'))
-            else:
-                track = pxml.xpath('//track[@lang_code=%r]' % self.lang)
-                if track:
-                    code['CC'] = track[0].attrib.get('name')
-        except HTTPError as e:
-            print e
-        return code
+        av_langs = []
+        url = 'https://www.youtube.com/api/timedtext?caps=asr&v={video}' +\
+            '&key=yttt1&hl=en_US&type=list&tlangs=1&fmts=0&vssids=1&asrs=1'
+        url = url.format(video=self.v)
+        response = urlopen(url)
+        pxml = etree.fromstring(response.read())
+        tracks = pxml.xpath('//track')
+        for track in tracks:
+            av_langs.append({
+            'str':track.get('lang_code') + ':' + track.get('lang_translated'),
+            'lang_code':track.get('lang_code'), 'CC':track.get('name','')})
+        return av_langs

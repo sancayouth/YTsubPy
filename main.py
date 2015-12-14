@@ -11,7 +11,6 @@ def main():
     parser.add_argument('-l', help='language', default='en')
     parser.add_argument('-d', help='discover the available languages',
                         action='store_true')
-
     r = parser.parse_args()
     url = r.url
     lang = r.l
@@ -28,7 +27,9 @@ def main():
             else:
                 raise NameError('Subtitle wasn\'t generated ')
         else:
-            dwnld.get_config_xml(discover)
+            langs = dwnld.get_config_xml(discover)
+            for lang in langs:
+                print lang.get('str')
     except HTTPError as e:
         print e
         print 'Subtitle not Found'
