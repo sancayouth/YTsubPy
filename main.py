@@ -20,10 +20,11 @@ def main():
         if not discover:
             xml = dwnld.get_xml()
             if xml:
+                title = dwnld.get_video_title()
                 sub = submaker.SubMaker()
                 sub.fromstring(xml)
-                sub.tofile()
-                print 'Subtitle was generated successfully'
+                sub.tofile(title)
+                print 'Subtitle was generated successfully: ' + title
             else:
                 raise NameError('Subtitle wasn\'t generated ')
         else:
@@ -34,7 +35,7 @@ def main():
         print exception
         print 'Subtitle not Found'
     except IOError as exception:
-        print 'Subtitle wasn\'t generated : ' + exception
+        print 'Subtitle wasn\'t generated : ' , exception
     except Exception as exception:
         print exception
 

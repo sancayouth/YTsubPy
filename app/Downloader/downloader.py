@@ -52,3 +52,11 @@ class Downloader(object):
             'str': track.get('lang_code') + ':' + track.get('lang_translated'),\
             'lang_code': track.get('lang_code'), 'CC': track.get('name', '')})
         return av_langs
+
+
+    def get_video_title(self):
+        from lxml.html import fromstring
+        response = urlopen(self.url)
+        html = response.read()
+        tree = fromstring(html)
+        return tree.findtext('.//title').split(' - ')[0]

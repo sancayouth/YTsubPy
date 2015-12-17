@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from lxml import objectify
+import re
 
 
 class SubMaker(object):
@@ -36,6 +37,8 @@ class SubMaker(object):
     def tofile(self, name=None):
         if name is None:
             name = 'sub.srt'
+        else:
+            name = re.sub('\W+',' ', name ) + '.srt'
         outputf = open(name, 'w')
         outputf.writelines(self.file_content)
         outputf.close()
