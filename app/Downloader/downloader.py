@@ -56,8 +56,8 @@ class Downloader(object):
 
 
     def get_video_title(self):
-        from lxml.html import fromstring
+        import re
         response = urlopen(self.url)
         html = response.read()
-        tree = fromstring(html)
-        return tree.findtext('.//title').split(' - YouTube')[0]
+        pattern = re.compile('<title.*?>(.+?)</title>')        
+        return re.findall(pattern, html)[0].decode('utf-8')
