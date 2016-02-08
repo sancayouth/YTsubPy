@@ -59,5 +59,6 @@ class Downloader(object):
         import re
         response = urlopen(self.url)
         html = response.read()
-        pattern = re.compile('<title.*?>(.+?)</title>')        
-        return re.findall(pattern, html)[0].decode('utf-8')
+        pattern = re.compile('<title.*?>(.+?)</title>')
+        title = re.findall(pattern, html)[0].decode('utf-8')
+        return title.split(' - YouTube')[0]
