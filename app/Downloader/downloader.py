@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from urllib2 import urlopen
 from urlparse import urlparse, parse_qs
 from lxml import etree
@@ -59,4 +60,4 @@ class Downloader(object):
         response = urlopen(self.url)
         html = response.read()
         tree = fromstring(html)
-        return tree.findtext('.//title').split(' - ')[0]
+        return tree.findtext('.//title').split(' - YouTube')[0]
