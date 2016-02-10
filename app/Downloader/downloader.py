@@ -25,15 +25,15 @@ class Downloader(object):
 
     def get_xml(self):
         xml = ''
-        url2 = 'https://www.youtube.com/api/timedtext?hl=en_US&v=' + \
-                '{video}&type=track&lang={lang}&fmt=1'
+        url2 = 'http://video.google.com/timedtext?type=track&v={video}' + \
+              '&lang={lang}'
+        url2 = url2.format(video=self.video, lang=self.lang)
         conf = self.get_config_xml()
         lang_match = next(
             (l for l in conf if l.get('lang_code') == self.lang), None)
         if lang_match:
             if lang_match.get('CC'):
                 url2 = url2 + '&name=CC'
-            url2 = url2.format(video=self.video, lang=self.lang)
             response = urlopen(url2)
             xml = response.read()
         else:
@@ -42,8 +42,7 @@ class Downloader(object):
 
     def get_config_xml(self):
         av_langs = []
-        url = 'https://www.youtube.com/api/timedtext?caps=asr&v={video}' +\
-            '&key=yttt1&hl=en_US&type=list&tlangs=1&fmts=0&vssids=1&asrs=1'
+        url = 'http://video.google.com/timedtext?type=list&v={video}'
         url = url.format(video=self.video)
         response = urlopen(url)
         pxml = etree.fromstring(response.read())
