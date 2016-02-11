@@ -9,18 +9,18 @@ $ pip install -r requirements.txt
 USAGE
 ------------
 
-### discover mode:
+### Discover mode:
 *Discover the available languages*  
 $ python main.py youtube_video_url -d  
-'English':'en'  
-'French':'fr'  
-'Portuguese (Brazil)':'pt-BR'  
-'Russian':'ru'  
-'Spanish':'es'  
+en:English
+fr:French
+pt-BR:Portuguese (Brazil)
+ru:Russian
+es:Spanish
 
-## download subtitle:
+## Download subtitle:
 $ python main.py youtube_video_url -l es  
-Subtitle was generated successfully
+Subtitle was generated successfully: Video Title
 
 TODO
 ------------
