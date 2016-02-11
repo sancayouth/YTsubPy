@@ -27,10 +27,10 @@ class SubMaker(object):
         self.file_content = []
         for count, row in enumerate(root.t):
             self.file_content.append(str(count + 1) + '\n')
-            line_time = self.generate_time(float(row.attrib.get("start")),\
-                float(row.attrib.get("dur")))
+            line_time = self.generate_time(float(row.attrib.get('start')),\
+                float(row.attrib.get('dur')))
             self.file_content.append(line_time)
-            self.file_content.append(unicode(row).encode("utf-8") + '\n')
+            self.file_content.append(unicode(row).encode('utf-8') + '\n')
             self.file_content.append('\n')
         return self.file_content
 

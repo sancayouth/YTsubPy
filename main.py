@@ -20,7 +20,7 @@ def main():
         if not discover:
             xml = dwnld.get_xml()
             if xml:
-                title = dwnld.get_video_title()
+                title = dwnld.get_video_title().encode('cp437', 'ignore')
                 sub = submaker.SubMaker()
                 sub.fromstring(xml)
                 sub.tofile(title)
