@@ -14,12 +14,10 @@ class SubMaker(object):
         t = datetime(1, 1, 1, 0, 0, 0)
         b = t + timedelta(seconds=start)
         c = b + timedelta(seconds=duration)
-        init_time = str(b.hour).zfill(2) + ':' + str(b.minute).zfill(2) + \
-                    ':' + str(b.second).zfill(2) + ',' + \
-                    str(b.microsecond).zfill(3)[0:3]
-        end_time = str(c.hour).zfill(2) + ':' + str(c.minute).zfill(2) + \
-                    ':' + str(c.second).zfill(2) + ',' + \
-                    str(c.microsecond).zfill(3)[0:3]
+        init_time = '%s:%s:%s,%s' % ( str(b.hour).zfill(2), str(b.minute).zfill(2),
+                    str(b.second).zfill(2), str(b.microsecond).zfill(3)[0:3], )
+        end_time = '%s:%s:%s,%s' % ( str(c.hour).zfill(2), str(c.minute).zfill(2),
+                    str(c.second).zfill(2), str(c.microsecond).zfill(3)[0:3], )
         return init_time + ' --> ' + end_time + '\n'
 
     def fromstring(self, string):
